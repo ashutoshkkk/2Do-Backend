@@ -46,6 +46,11 @@ class ToDoController(
         return repository.findByOwnerId(ObjectId(ownerId)).map { it.toResponse() }
     }
 
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteById(@PathVariable id: String) {
+        repository.deleteById(ObjectId(id))
+    }
+
 }
 
 fun ToDo.toResponse() = ToDoController.ToDoResponse(
