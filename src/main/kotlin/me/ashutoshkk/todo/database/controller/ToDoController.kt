@@ -3,11 +3,7 @@ package me.ashutoshkk.todo.database.controller
 import me.ashutoshkk.todo.database.model.ToDo
 import me.ashutoshkk.todo.database.repository.ToDoRepository
 import org.bson.types.ObjectId
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
 @RestController
@@ -19,8 +15,7 @@ class ToDoController(
     data class ToDoRequest(
         val id: String?,
         val title: String,
-        val subText: String?,
-        val ownerId: String?
+        val subText: String?
     )
 
     data class ToDoResponse(
@@ -32,13 +27,13 @@ class ToDoController(
     )
 
     @PostMapping
-    fun save(body: ToDoRequest): ToDoResponse {
+    fun save(@RequestBody body: ToDoRequest): ToDoResponse {
         return repository.save(
             ToDo(
                 id = body.id?.let { ObjectId(it) } ?: ObjectId.get(),
                 title = body.title,
                 subText = body.subText,
-                ownerId = ObjectId(body.ownerId),
+                ownerId = ObjectId.get(),
                 createdAt = Instant.now()
             )
         ).toResponse()

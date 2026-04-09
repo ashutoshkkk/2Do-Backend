@@ -51,3 +51,7 @@ kotlin {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.withType<JavaExec> {
+	jvmArgs("-Djdk.tls.client.protocols=TLSv1.2")
+}
